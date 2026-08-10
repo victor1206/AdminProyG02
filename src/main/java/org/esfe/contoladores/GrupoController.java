@@ -9,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -72,6 +69,39 @@ public class GrupoController {
         attributes.addFlashAttribute("msg",
                 "Grupo Creado Exitosamente");
 
+        return "redirect:/grupos";
+    }
+
+    @GetMapping("/details/{id}")
+    public String detalle(@PathVariable("id") Integer id, Model model)
+    {
+        Grupo grupo = grupoService.buscarPorId(id).get();
+        model.addAttribute("grupo", grupo);
+        return "grupo/details";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editar(@PathVariable("id") Integer id, Model model)
+    {
+        Grupo grupo = grupoService.buscarPorId(id).get();
+        model.addAttribute("grupo", grupo);
+        return "grupo/edit";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id") Integer id, Model model)
+    {
+        Grupo grupo = grupoService.buscarPorId(id).get();
+        model.addAttribute("grupo", grupo);
+        return "grupo/delete";
+    }
+
+    @PostMapping("/delete")
+    public String eliminar(Grupo grupo, RedirectAttributes attributes)
+    {
+        grupoService.eliminarPorId(grupo.getId());
+        attributes.addFlashAttribute("msg",
+                "Grupo eliminado correctamente ");
         return "redirect:/grupos";
     }
 }
