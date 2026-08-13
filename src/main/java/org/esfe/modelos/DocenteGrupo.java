@@ -18,12 +18,10 @@ public class DocenteGrupo {
     @ManyToOne
     @JoinColumn(name = "grupo_id")
     private Grupo grupo;
-
-    @NotBlank(message = "Año es obligatorio")
-    private int anio;
+    
+    private Integer anio;
 
     @Column(length = 10, nullable = false)
-    @NotBlank(message = "El ciclo de estudio es obligatorio")
     private String ciclo;
 
     public Integer getId() {
