@@ -72,4 +72,37 @@ public class DocenteController {
                 "Docente creado correctamente");
         return "redirect:/docentes";
     }
+
+    @GetMapping("/datails/{id}")
+    public String details(@PathVariable Integer id, Model model)
+    {
+        Docente docente = docenteService.buscarPorId(id).get();
+        model.addAttribute("docente", docente);
+        return "docente/details";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model)
+    {
+        Docente docente = docenteService.buscarPorId(id).get();
+        model.addAttribute("docente", docente);
+        return "docente/edit";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable Integer id, Model model)
+    {
+        Docente docente = docenteService.buscarPorId(id).get();
+        model.addAttribute("docente", docente);
+        return "docente/delete";
+    }
+
+    @PostMapping("/delete")
+    public String delete(Docente docente, RedirectAttributes attributes)
+    {
+        docenteService.eliminarPorId(docente.getId());
+        attributes.addFlashAttribute("msg",
+                "Docente eliminado correctamente");
+        return "redirect:/docentes";
+    }
 }

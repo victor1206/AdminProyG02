@@ -31,7 +31,7 @@
     </div>
 
     <h1>Listado de docentes</h1>
-    <a th:href="@{/docentes/create}" class="btn btn-outline-primary">Nuevo Grupo</a>
+    <a th:href="@{/docentes/create}" class="btn btn-outline-primary">Nuevo Docente</a>
     <table class = "table table-striped">
         <thead>
         <th>Nombre</th>
@@ -49,7 +49,7 @@
             <td th:text="${item.getTelefono()}"></td>
             <td th:text="${item.getEscuela()}"></td>
             <td>
-                <a th:href="@{ /docentes/details/{id} (id= ${item.getId()}) }"
+                <a th:href="@{ /docentes/datails/{id} (id= ${item.getId()}) }"
                    class="btn btn-outline-primary">Detalles</a>
                 <a th:href="@{ /docentes/edit/{id} (id = ${item.getId()})  }"
                    class="btn btn-outline-success">Editar</a>
