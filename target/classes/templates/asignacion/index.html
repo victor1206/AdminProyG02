@@ -49,11 +49,11 @@
             <td th:text="${item.docente.getEscuela()}"></td>
             <td th:text="${item.grupo.getNombre()}"></td>
             <td>
-                <a th:href="@{ /asignaciones/details/{id} (id= ${item.getId()}) }"
+                <a th:href="@{/asignaciones/datails/{id} (id= ${item.getId()}) }"
                    class="btn btn-outline-primary">Detalles</a>
-                <a th:href="@{ /asignaciones/edit/{id} (id = ${item.getId()})  }"
+                <a th:href="@{/asignaciones/edit/{id} (id = ${item.getId()})  }"
                    class="btn btn-outline-success">Editar</a>
-                <a th:href="@{ /asignaciones/remove/{id} (id = ${item.getId()})  }"
+                <a th:href="@{/asignaciones/remove/{id} (id = ${item.getId()})  }"
                    class="btn btn-outline-danger">Eliminar</a>
             </td>
         </tr>

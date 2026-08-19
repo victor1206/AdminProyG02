@@ -12,10 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.InterfaceAddress;
@@ -90,6 +87,65 @@ public class DocenteGrupoContoller {
                     "Asignacion creada correctamente");
         }
 
+        return "redirect:/asignaciones";
+    }
+
+    @GetMapping("/datails/{id}")
+    public String datails(@PathVariable Integer id, Model model)
+    {
+        DocenteGrupo docenteGrupo = docenteGrupoService.buscarPorId(id).get();
+        model.addAttribute("docenteGrupo", docenteGrupo);
+        return "asignacion/details";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model)
+    {
+        DocenteGrupo docenteGrupo = docenteGrupoService.buscarPorId(id).get();
+        model.addAttribute("docentes", docenteService.obtenerTodos());
+        model.addAttribute("grupos", grupoService.obtenerTodos());
+        model.addAttribute("docenteGrupo", docenteGrupo);
+        return "asignacion/edit";
+    }
+
+    @PostMapping("/update")
+    public String update(@RequestParam Integer id, @RequestParam Integer docenteId,
+    @RequestParam Integer grupoId, @RequestParam Integer anio, @RequestParam String ciclo,
+                         RedirectAttributes attributes)
+    {
+        Docente docente = docenteService.buscarPorId(docenteId).get();
+        Grupo grupo = grupoService.buscarPorId(grupoId).get();
+
+        if(docente != null && grupo != null)
+        {
+           DocenteGrupo docenteGrupo = new DocenteGrupo();
+           docenteGrupo.setId(id);
+           docenteGrupo.setDocente(docente);
+           docenteGrupo.setGrupo(grupo);
+           docenteGrupo.setAnio(anio);
+           docenteGrupo.setCiclo(ciclo);
+
+           docenteGrupoService.createOrEdit(docenteGrupo);
+           attributes.addFlashAttribute("msg",
+                   "Asignacion modificada exitosamente");
+        }
+        return "redirect:/asignaciones";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable Integer id, Model model)
+    {
+        DocenteGrupo docenteGrupo = docenteGrupoService.buscarPorId(id).get();
+        model.addAttribute("docenteGrupo", docenteGrupo);
+        return "asignacion/delete";
+    }
+
+    @PostMapping("/delete")
+    public String delete(DocenteGrupo docenteGrupo, RedirectAttributes attributes)
+    {
+        docenteGrupoService.eliminarPorId(docenteGrupo.getId());
+        attributes.addFlashAttribute("msg",
+                "Asignacion eliminada correctamente");
         return "redirect:/asignaciones";
     }
 }
